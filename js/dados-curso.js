@@ -25,7 +25,15 @@
         duracao: "15 min",
         slidesRef: "Slides 3–7",
         topicos: ["Transdutores", "Onda Senoidal", "Fourier", "Sinal Analógico"],
-        midias: ["Imagem Matricial", "Imagem Vetorial"]
+        subtopicos: [
+          "Propagação sonora como ondas de pressão atmosférica",
+          "Transdutores acústico-elétrico (microfones) e elétrico-acústico (alto-falantes)",
+          "Potência proporcional ao quadrado da amplitude",
+          "Síntese aditiva e Análise de Fourier (combinação de senoides)",
+          "Armazenamento analógico e contaminação por ruído"
+        ],
+        midias: ["Imagem Matricial", "Imagem Vetorial"],
+        midiasIds: ["matricial", "vetorial"]
       },
       {
         id: 2,
@@ -37,7 +45,15 @@
         duracao: "25 min",
         slidesRef: "Slides 8–26",
         topicos: ["PCM", "Critério de Nyquist", "Quantização", "Bitrate"],
-        midias: ["Imagem Vetorial", "Animação", "Áudio"]
+        subtopicos: [
+          "Amostras de som, arquivos e cadeia ADC → Sistema Digital → DAC",
+          "Filtragem passa-baixas para voz (300 Hz a 3400 Hz)",
+          "Teorema da amostragem (Fa ≥ 2 · Fmax) e telefonia (8000 Hz, Ta = 125 µs)",
+          "Quantização PAM, erro/ruído de quantização e codificação q = μ^ν",
+          "Cálculos de taxa e tamanho: Telefonia (64 kbps) vs. CD Audio (705,6 kbps/canal)"
+        ],
+        midias: ["Imagem Vetorial", "Animação", "Áudio"],
+        midiasIds: ["vetorial", "animacao", "audio"]
       },
       {
         id: 3,
@@ -49,7 +65,15 @@
         duracao: "18 min",
         slidesRef: "Slides 27–30",
         topicos: ["Domínio do Tempo", "Domínio da Frequência", "Equalizador Gráfico"],
-        midias: ["Vídeo", "Imagem Matricial"]
+        subtopicos: [
+          "Domínio do tempo: operações sobre amostras separadas",
+          "Edição básica: armazenar, cortar, copiar, colar, realçar, atenuar e mixar",
+          "Domínio da frequência: análise de sequências de amostras",
+          "Filtragem digital, ajustes de duração/altura, síntese e reconhecimento de voz",
+          "Funcionamento do equalizador gráfico multibanda (31 Hz a 16 kHz)"
+        ],
+        midias: ["Vídeo", "Imagem Matricial"],
+        midiasIds: ["video", "matricial"]
       },
       {
         id: 4,
@@ -61,7 +85,15 @@
         duracao: "20 min",
         slidesRef: "Slides 31–35",
         topicos: ["Codecs", "Redundâncias", "MPEG & AC-3", "Formatos WAV/MP3"],
-        midias: ["Música MIDI", "Áudio"]
+        subtopicos: [
+          "Codecs de compactação de áudio em sistemas multimídia",
+          "Princípios: redundância estatística, temporal, do conhecimento e sistema auditivo",
+          "Codificações PCM (não comprimido), ADPCM e MP3 (MPEG Camada 3)",
+          "Comparativo de algoritmos MPEG Camada 1/2/3 e AC-3 Dolby",
+          "Formatos de armazenamento: AIFF, AU, MOV, MPA/MP2, MP3, QT, RA/RAM, WAV e WMA"
+        ],
+        midias: ["Música MIDI", "Áudio"],
+        midiasIds: ["midi", "audio"]
       }
     ]
   };

@@ -91,6 +91,12 @@
       tentativas.length > 0
         ? Math.max(...tentativas.map((t) => t.percentual))
         : null;
+    const mediaNota =
+      tentativas.length > 0
+        ? Math.round(
+            tentativas.reduce((acc, t) => acc + t.percentual, 0) / tentativas.length
+          )
+        : null;
 
     // 80% pelos 4 capítulos (20% cada) + 20% por realizar o quiz
     const pesoCapitulos = (concluidos.length / totalCapitulos) * 80;
@@ -111,9 +117,42 @@
       tentativasCount: tentativas.length,
       ultimaNota: ultimaTentativa ? ultimaTentativa.percentual : null,
       melhorNota,
+      mediaNota,
       percentualGeral,
       proximoCapitulo
     };
+  }
+
+  function alternarConclusaoCapitulo(capituloId) {
+    const estado = carregarEstado();
+    const dados = global.ConectaDados;
+    const cap = dados.capitulos.find((c) => c.id === capituloId);
+    if (!cap) return false;
+
+    const jaConcluido = estado.capitulosConcluidos.includes(capituloId);
+    if (jaConcluido) {
+      estado.capitulosConcluidos = estado.capitulosConcluidos.filter((id) => id !== capituloId);
+      salvarEstado(estado);
+      registrarAtividade(`Capítulo ${cap.numero} reaberto para estudo`, "bookOpen");
+      return false;
+    }
+
+    estado.capitulosConcluidos = [...estado.capitulosConcluidos, capituloId];
+    estado.ultimoCapitulo = capituloId;
+    salvarEstado(estado);
+    registrarAtividade(`Capítulo ${cap.numero} (${cap.titulo}) concluído`, "checkCircle2");
+    return true;
+  }
+
+  function marcarMidiaExplorada(midiaId) {
+    const estado = carregarEstado();
+    const midia = global.ConectaDados.midiasObrigatorias.find((m) => m.id === midiaId);
+    if (!midia || estado.midiasExploradas.includes(midiaId)) return false;
+
+    estado.midiasExploradas = [...estado.midiasExploradas, midiaId];
+    salvarEstado(estado);
+    registrarAtividade(`Recurso explorado: ${midia.nome}`, midia.icone);
+    return true;
   }
 
   function reiniciarProgresso() {
@@ -140,6 +179,8 @@
     definirNomeEstudante,
     alternarTema,
     calcularResumoProgresso,
+    alternarConclusaoCapitulo,
+    marcarMidiaExplorada,
     reiniciarProgresso
   };
 })(window);

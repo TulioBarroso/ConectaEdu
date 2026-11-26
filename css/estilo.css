@@ -753,13 +753,425 @@ svg.lucide {
   color: var(--text-muted);
 }
 
+/* ==========================================================================
+   Página de Módulos e Progresso do Estudante
+   ========================================================================== */
+
+.page-header-card {
+  padding: 24px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  background:
+    radial-gradient(520px circle at 100% 0%, var(--accent-soft), transparent 65%),
+    var(--bg-surface);
+}
+
+.page-header-title {
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-top: 8px;
+}
+
+.page-header-desc {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  max-width: 64ch;
+}
+
+.page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Painel de Progresso do Estudante */
+.progress-overview-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 16px;
+}
+
+.ring-progress-card {
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ring-wrap {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  flex-shrink: 0;
+}
+
+.ring-svg {
+  width: 92px;
+  height: 92px;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: var(--bg-subtle);
+  stroke-width: 8;
+}
+
+.ring-fg {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 600ms var(--ease-out);
+}
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ring-caption {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.status-split-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.status-split-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+
+.status-split-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.status-split-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.quiz-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.quiz-mini-box {
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.quiz-mini-val {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.quiz-mini-lbl {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Barra de ferramentas dos módulos */
+.modules-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  min-width: 240px;
+  flex: 1;
+  max-width: 340px;
+}
+
+.search-box-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: inline-flex;
+}
+
+.search-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* Grade detalhada dos Módulos */
+.modules-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.module-detail-card {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.module-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.module-progress-row span:last-child {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.syllabus-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.syllabus-toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+.syllabus-toggle svg {
+  transition: transform var(--transition-fast);
+}
+
+.syllabus-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.module-syllabus {
+  display: none;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+}
+
+.module-syllabus.is-open {
+  display: block;
+  animation: fadeSlideIn 200ms var(--ease-out);
+}
+
+.module-syllabus li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.module-syllabus li + li {
+  margin-top: 6px;
+}
+
+.module-syllabus li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.module-detail-actions {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Mapa de Mídias e Pendências */
+.progress-details-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 16px;
+}
+
+.media-map-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.media-map-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+}
+
+.media-map-item.is-explored {
+  border-color: var(--success);
+  background: var(--success-soft);
+}
+
+.media-map-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.media-map-item.is-explored .media-map-icon {
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.media-map-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.media-map-meta {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.media-map-path {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.pending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pending-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+}
+
+.pending-item-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pending-item-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
 /* Responsividade */
 @media (max-width: 1120px) {
   .kpi-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .dashboard-grid {
+  .dashboard-grid,
+  .progress-overview-grid,
+  .progress-details-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -787,7 +1199,8 @@ svg.lucide {
     margin-left: 0;
   }
 
-  .hero-card {
+  .hero-card,
+  .modules-catalog-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -803,8 +1216,14 @@ svg.lucide {
 
   .kpi-grid,
   .modules-grid,
-  .media-checklist {
+  .media-checklist,
+  .media-map-list {
     grid-template-columns: 1fr;
+  }
+
+  .ring-progress-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .student-chip-name {

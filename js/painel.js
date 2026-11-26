@@ -1,9 +1,8 @@
 /* ==========================================================================
-   ConectaEdu — Lógica da Página de Dashboard (KPIs, Módulos, Atividades e Onda)
+   ConectaEdu — Lógica da Página de Dashboard (Hero, KPIs e Onda Acústica)
    ========================================================================== */
 
 (function (global) {
-  let filtroAtual = "todos";
   let audioCtx = null;
   let osciladorAtivo = null;
 
@@ -23,20 +22,6 @@
     }
 
     requestAnimationFrame(passo);
-  }
-
-  function formatarHorario(iso) {
-    try {
-      const data = new Date(iso);
-      return data.toLocaleString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-    } catch (e) {
-      return "Agora";
-    }
   }
 
   function renderizarHero(resumo) {
@@ -115,167 +100,10 @@
     }
   }
 
-  function renderizarModulos(resumo) {
-    const { icone } = global.ConectaIcones;
-    const container = document.getElementById("dashboard-modulos-lista");
-    if (!container) return;
-
-    const concluidos = resumo.estado.capitulosConcluidos;
-    const filtrados = global.ConectaDados.capitulos.filter((cap) => {
-      const estaConcluido = concluidos.includes(cap.id);
-      if (filtroAtual === "concluidos") return estaConcluido;
-      if (filtroAtual === "pendentes") return !estaConcluido;
-      return true;
-    });
-
-    if (filtrados.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state">
-          Nenhum módulo encontrado para o filtro selecionado.
-        </div>
-      `;
-      return;
-    }
-
-    container.innerHTML = filtrados
-      .map((cap, idx) => {
-        const concluido = concluidos.includes(cap.id);
-        const badge = concluido
-          ? `<span class="badge badge-success">${icone("check", 13)} Concluído</span>`
-          : `<span class="badge badge-neutral">Pendente</span>`;
-
-        const topicosHtml = cap.topicos
-          .map((t) => `<span class="topic-chip">${t}</span>`)
-          .join("");
-
-        return `
-          <article class="card card-interactive card-spotlight module-card animate-in delay-${idx + 1}">
-            <div>
-              <div class="module-card-head">
-                <span class="module-num">CAPÍTULO ${cap.numero} · ${cap.slidesRef}</span>
-                ${badge}
-              </div>
-              <h3 class="module-title">${cap.titulo}</h3>
-              <p class="module-desc">${cap.descricao}</p>
-              <div class="module-topics">${topicosHtml}</div>
-            </div>
-
-            <div class="module-footer">
-              <span class="module-media-tags" title="Mídias integradas neste capítulo">
-                ${icone("clock", 14)} ${cap.duracao} · ${cap.midias.join(" + ")}
-              </span>
-              <a
-                href="${cap.arquivo}"
-                class="btn btn-outline btn-sm"
-                data-rota="${cap.arquivo}"
-                data-rotulo="Capítulo ${cap.numero}: ${cap.titulo}"
-              >
-                <span>Acessar</span>
-                ${icone("arrowRight", 14)}
-              </a>
-            </div>
-          </article>
-        `;
-      })
-      .join("");
-
-    global.ConectaUI.aplicarSpotlightCards();
-  }
-
-  function renderizarChecklistMidias(resumo) {
-    const { icone } = global.ConectaIcones;
-    const lista = document.getElementById("dashboard-midias-checklist");
-    const barra = document.getElementById("midias-progresso-barra");
-    if (!lista) return;
-
-    const vistas = resumo.estado.midiasExploradas || [];
-    const pct = Math.round((vistas.length / resumo.totalMidias) * 100);
-    if (barra) barra.style.width = `${pct}%`;
-
-    lista.innerHTML = global.ConectaDados.midiasObrigatorias
-      .map((m) => {
-        const explorada = vistas.includes(m.id);
-        return `
-          <div class="media-check-item ${explorada ? "is-explored" : ""}" title="Prevista no Capítulo 0${m.capitulo} (${m.pasta})">
-            <span class="media-check-dot">
-              ${explorada ? icone("check", 11) : icone(m.icone, 11)}
-            </span>
-            <span>${m.nome}</span>
-          </div>
-        `;
-      })
-      .join("");
-  }
-
-  function renderizarAtividades(resumo) {
-    const { icone } = global.ConectaIcones;
-    const lista = document.getElementById("dashboard-atividades-lista");
-    if (!lista) return;
-
-    const atividades = resumo.estado.atividadesRecentes || [];
-    if (atividades.length === 0) {
-      lista.innerHTML = '<div class="empty-state">Nenhuma atividade registrada ainda.</div>';
-      return;
-    }
-
-    lista.innerHTML = atividades
-      .map(
-        (act) => `
-          <li class="activity-item">
-            <span class="activity-icon">${icone(act.icone || "info", 15)}</span>
-            <div>
-              <div class="activity-title">${act.titulo}</div>
-              <div class="activity-time">${formatarHorario(act.timestamp)}</div>
-            </div>
-          </li>
-        `
-      )
-      .join("");
-  }
-
   function atualizarDashboard() {
     const resumo = global.ConectaStorage.calcularResumoProgresso();
     renderizarHero(resumo);
     renderizarKPIs(resumo);
-    renderizarModulos(resumo);
-    renderizarChecklistMidias(resumo);
-    renderizarAtividades(resumo);
-  }
-
-  function iniciarFiltros() {
-    const botoes = document.querySelectorAll("[data-filtro-modulo]");
-    botoes.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        filtroAtual = btn.getAttribute("data-filtro-modulo");
-        botoes.forEach((b) => b.classList.toggle("is-active", b === btn));
-        renderizarModulos(global.ConectaStorage.calcularResumoProgresso());
-      });
-    });
-  }
-
-  function iniciarResetProgresso() {
-    const btnReset = document.getElementById("btn-reiniciar-progresso");
-    if (!btnReset) return;
-
-    btnReset.addEventListener("click", () => {
-      global.ConectaUI.abrirModal({
-        titulo: "Reiniciar progresso do curso?",
-        descricao:
-          "Isso limpará os capítulos concluídos, o histórico do quiz e as mídias exploradas salvos neste navegador.",
-        textoConfirmar: "Sim, reiniciar",
-        classeConfirmar: "btn-primary",
-        aoConfirmar: () => {
-          global.ConectaStorage.reiniciarProgresso();
-          global.ConectaPrincipal.montarShell();
-          atualizarDashboard();
-          global.ConectaUI.mostrarToast(
-            "Progresso reiniciado",
-            "Seus indicadores voltaram ao estado inicial.",
-            "rotateCcw"
-          );
-        }
-      });
-    });
   }
 
   /* Visualizador Acústico Interativo no Hero (Onda Senoidal vs Síntese Aditiva/Fourier) */
@@ -415,8 +243,6 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     atualizarDashboard();
-    iniciarFiltros();
-    iniciarResetProgresso();
     iniciarOndaAcustica();
   });
 

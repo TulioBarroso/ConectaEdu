@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConectaEdu — Módulos e Progresso · Áudio Digital</title>
+  <meta
+    name="description"
+    content="Catálogo dos 4 capítulos de Áudio Digital e acompanhamento detalhado de progresso do estudante."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/variaveis.css" />
+  <link rel="stylesheet" href="css/componentes.css" />
+  <link rel="stylesheet" href="css/estilo.css" />
+
+  <script>
+    try {
+      const salvo = JSON.parse(localStorage.getItem("conectaedu_audio_digital_v1") || "{}");
+      if (salvo.tema === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    } catch (e) {}
+  </script>
+</head>
+<body data-page="modulos.html" data-title="Módulos e Progresso">
+  <div class="app-shell">
+    <div id="sidebar-slot"></div>
+
+    <div class="main-area">
+      <div id="topbar-slot"></div>
+
+      <main class="page-container">
+        <!-- Cabeçalho da Página de Módulos -->
+        <section class="card card-spotlight page-header-card animate-in" aria-labelledby="titulo-pagina-modulos">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span class="badge badge-accent">Trilha de Aprendizagem</span>
+              <span class="badge badge-neutral">4 Capítulos · 6 Mídias</span>
+            </div>
+            <h1 class="page-header-title" id="titulo-pagina-modulos">
+              Módulos de Áudio Digital
+            </h1>
+            <p class="page-header-desc">
+              Acesse qualquer capítulo de forma não-linear, acompanhe a ementa baseada no material da disciplina
+              e monitore seu progresso geral e desempenho no quiz.
+            </p>
+          </div>
+
+          <div class="page-header-actions">
+            <a href="capitulo1.html" class="btn btn-primary" id="btn-modulos-continuar">
+              <span>Continuar: Cap. 01</span>
+            </a>
+            <a href="quiz.html" class="btn btn-outline">
+              <span>Ir para o Quiz</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Progresso do Estudante -->
+        <section class="progress-overview-grid" aria-label="Progresso do estudante">
+          <article class="card ring-progress-card animate-in delay-1">
+            <div class="ring-wrap" aria-hidden="true">
+              <svg class="ring-svg" viewBox="0 0 92 92">
+                <circle class="ring-bg" cx="46" cy="46" r="38"></circle>
+                <circle
+                  class="ring-fg"
+                  id="ring-fg-progresso"
+                  cx="46"
+                  cy="46"
+                  r="38"
+                  stroke-dasharray="238.76"
+                  stroke-dashoffset="238.76"
+                ></circle>
+              </svg>
+              <div class="ring-center">
+                <span id="ring-percentual-valor">0%</span>
+                <span class="ring-caption">Concluído</span>
+              </div>
+            </div>
+
+            <div>
+              <h2 class="card-title">Percentual de Conclusão</h2>
+              <p class="card-subtitle" id="ring-progresso-desc" style="margin-top:6px; line-height:1.5;">
+                0 de 4 capítulos (80%) + Quiz pendente (20%).
+              </p>
+            </div>
+          </article>
+
+          <article class="card card-body animate-in delay-2">
+            <h2 class="card-title">Status dos Conteúdos</h2>
+            <p class="card-subtitle">Resumo entre módulos concluídos e pendentes</p>
+
+            <div class="status-split-list">
+              <div class="status-split-row">
+                <span class="status-split-left">Módulos concluídos</span>
+                <span class="status-split-val" id="split-concluidos-val">0 / 4</span>
+              </div>
+              <div class="status-split-row">
+                <span class="status-split-left">Capítulos pendentes</span>
+                <span class="status-split-val" id="split-pendentes-val">4</span>
+              </div>
+              <div class="status-split-row">
+                <span class="status-split-left">Mídias exploradas</span>
+                <span class="status-split-val" id="split-midias-val">0 / 6</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card-body animate-in delay-3">
+            <h2 class="card-title">Desempenho no Quiz</h2>
+            <p class="card-subtitle" id="quiz-stat-msg">
+              Realize o Quiz Interativo para registrar seu desempenho.
+            </p>
+
+            <div class="quiz-mini-stats">
+              <div class="quiz-mini-box">
+                <div class="quiz-mini-val" id="quiz-stat-melhor">—</div>
+                <div class="quiz-mini-lbl">Melhor nota</div>
+              </div>
+              <div class="quiz-mini-box">
+                <div class="quiz-mini-val" id="quiz-stat-ultima">—</div>
+                <div class="quiz-mini-lbl">Última nota</div>
+              </div>
+              <div class="quiz-mini-box">
+                <div class="quiz-mini-val" id="quiz-stat-tentativas">0</div>
+                <div class="quiz-mini-lbl">Tentativas</div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Barra de Filtros + Catálogo de Capítulos -->
+        <section aria-label="Catálogo de capítulos">
+          <div class="modules-toolbar" style="margin-bottom: 14px;">
+            <div>
+              <h2 class="section-title">Capítulos do Curso</h2>
+              <p class="section-subtitle" id="modulos-contador-resultado">
+                Exibindo 4 de 4 capítulos
+              </p>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1; justify-content:flex-end;">
+              <div class="search-box">
+                <span class="search-box-icon" aria-hidden="true">
+                  <svg class="lucide" width="16" height="16" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                  </svg>
+                </span>
+                <input
+                  type="search"
+                  class="search-input"
+                  id="busca-modulos"
+                  placeholder="Buscar tema (ex.: Nyquist, PCM, MP3)..."
+                  aria-label="Buscar capítulo por tema"
+                />
+              </div>
+
+              <div class="segmented" role="tablist" aria-label="Filtrar capítulos">
+                <button type="button" class="segmented-btn is-active" data-filtro-catalogo="todos">
+                  Todos
+                </button>
+                <button type="button" class="segmented-btn" data-filtro-catalogo="pendentes">
+                  Pendentes
+                </button>
+                <button type="button" class="segmented-btn" data-filtro-catalogo="concluidos">
+                  Concluídos
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modules-catalog-grid" id="modulos-catalogo-lista"></div>
+        </section>
+
+        <!-- Mapa das 6 Mídias + Conteúdos Pendentes -->
+        <section class="progress-details-grid" aria-label="Detalhamento de mídias e pendências">
+          <article class="card animate-in delay-2">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Mapa das 6 Mídias Obrigatórias</h2>
+                <p class="card-subtitle">
+                  Distribuição dos recursos multimídia pelas aulas e pastas em <code>assets/</code>
+                </p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="media-map-list" id="modulos-mapa-midias"></div>
+            </div>
+          </article>
+
+          <article class="card animate-in delay-3">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Conteúdos Pendentes</h2>
+                <p class="card-subtitle">Próximos passos recomendados para concluir o curso</p>
+              </div>
+            </div>
+            <div class="card-body" id="modulos-lista-pendencias"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/dados-curso.js"></script>
+  <script src="js/icones.js"></script>
+  <script src="js/armazenamento.js"></script>
+  <script src="js/componentes.js"></script>
+  <script src="js/principal.js"></script>
+  <script src="js/modulos.js"></script>
+</body>
+</html>
